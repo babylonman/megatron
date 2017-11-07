@@ -15,15 +15,18 @@ indent_mode=2
 [project]
 name=megatron
 base_path=/home/pi/megatron
+description=
 
 [long line marker]
 long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=273;Python;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fmegatron%2Fpython%2Fpure_pursuit.py;0;4
-FILE_NAME_1=676;None;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fmegatron%2Fpython%2Fline_circle_intersection;0;4
+current_page=3
+FILE_NAME_0=1;Python;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fmegatron%2Fpython%2Fpure_pursuit.py;0;4
+FILE_NAME_1=302;Python;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fmegatron%2Fpython%2Fline_circle_intersection.py;0;4
+FILE_NAME_2=1186;Python;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fmegatron%2Fpython%2Fvk-172_gps_read.py;0;4
+FILE_NAME_3=75;Python;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fmegatron%2Fpython%2Fex_geojson.py;0;4
 
 [VTE]
 last_dir=/home/pi/megatron/python
