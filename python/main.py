@@ -10,6 +10,11 @@ import pandas as pd
 
 
 def get_position(serial_port, data_container):
+    '''Read GPS position (message GPGLL) from VK-172
+        Serial_port = the serial port of the USB GPS receiver
+            ex: ser = serial.Serial('/dev/ttyACM0')
+        Data_container = pandas data frame used to store test run data
+    '''
 # port is a serial object for GPS
 # read data
 # format into df
