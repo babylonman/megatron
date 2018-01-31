@@ -1,6 +1,6 @@
 
-# lsusb 
-# Bus 001 Device 006: ID 1546:01a7 U-Blox AG 
+# lsusb
+# Bus 001 Device 006: ID 1546:01a7 U-Blox AG
 #
 #pi@raspberrypi:~/megatron $ dmesg | grep tty
 #[    0.000000] Kernel command line: 8250.nr_uarts=1 bcm2708_fb.fbwidth=1824 bcm2708_fb.fbheight=984 bcm2708_fb.fbswap=1 vc_mem.mem_base=0x3dc00000 vc_mem.mem_size=0x3f000000  dwc_otg.lpm_enable=0 console=ttyS0,115200 console=tty1 root=/dev/mmcblk0p7 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles
@@ -21,22 +21,39 @@
 # 5) Time (UTC)
 # 6) Status A - Data Valid, V - Data Invalid
 # 7) Checksum
-# The NMEA 0183 Protocol 9 
+# The NMEA 0183 Protocol 9
 
 
 import serial
+import pandas as pd
+
+line = ""
 
 ser = serial.Serial('/dev/ttyACM0')
 print(ser.name)
 
+
 while True:
-    line = ser.readline()
-    [msg, data] = line.split(',',1)
+    line = str(ser.readline())
+    [msg, data] = line[2:].split(',', 1)
     if msg == '$GPGLL':
-		[lat, latDir, lon, lonDir, time, valid, cksum] = data.split(',', 6)
-		if valid == 'A':
-			print('Valid data received: ') 
-			print('Current latitude ' + lat + ' degrees ' + latDir)
-			print('Current longitude ' + lon + ' degrees ' + lonDir)
-        
+            [lat, latDir, lon, lonDir, time, valid, cksum] = data.split(',', 6)
+            if valid == 'A':
+                print('Valid data received: ')
+                print('Current latitude ' + lat + ' degrees ' + latDir)
+                print('Current longitude ' + lon + ' degrees ' + lonDir)
+
 ser.close()
+
+
+def get_position(port):
+# port is a serial object for GPS
+# read data
+# format into df
+# return data frame
+    line = str(ser.readline())
+    [msg, data] = line[2:].split(',', 1)
+    if msg == '$GPGLL':
+            [lat, latDir, lon, lonDir, time, valid, cksum] = data.split(',', 6)
+
+    return
