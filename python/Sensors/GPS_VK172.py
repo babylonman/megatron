@@ -6,14 +6,16 @@ Created on Sat Feb  3 18:51:01 2018
 
 @author: Jon Cosgrove
 """
+import serial
 
 
-def get_position(serial_port):
+def get_position(serial_port=None):
     '''Read GPS position, GPGLL, from VK-172
 
     Parameters
     ----------
     serial_port : serial.Serial object
+    default = '/dev/ttyACM0'
     port of USB GPS receiver, Serial object from serial module
 
     Returns
@@ -23,8 +25,15 @@ def get_position(serial_port):
     Example
     -------
     current_positon = get_position(serial.Serial('/dev/ttyACM0'))
-
     '''
+
+    if serial_port is None:
+        try:
+            serial_port = serial.Serial('/dev/ttyACM0')
+            print('Warning: using default serial location: "/dev/ttyACM0"')
+        except:
+            print('No serial port avaliable')
+            return
 
     d = {}
     readComplete = False
