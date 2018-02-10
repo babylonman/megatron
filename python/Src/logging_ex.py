@@ -14,7 +14,7 @@ filename = dt.datetime.now().strftime('%Y%m%d_%H%M%S%p') \
 logging.config.fileConfig('logging.conf', defaults={'logfilename': '../Log/'+filename})
 
 # create logger
-logger = logging.getLogger('simpleExample')
+logger = logging.getLogger('main')
 
 # 'application' code
 logger.debug('debug message')
