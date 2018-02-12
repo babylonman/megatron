@@ -19,16 +19,16 @@ dump  # doctest: +ELLIPSIS
 '{"coordinates": [43.2, -1.53], "type": "Point"}'
 
 geojson.loads(dump)  # doctest: +ELLIPSIS
-{"coordinates": [43.2, -1.53], "type": "Point"}    
+{"coordinates": [43.2, -1.53], "type": "Point"}
 
-# write to json file 
-    geojson.dump(my_point, f)
+# write to json file
+geojson.dump(my_point, f)
 
 # import from json file
 with open('/home/pi/megatron/python/geojson/my_point_for_import.json', 'r') as f:
     my_imported_point = geojson.load(f)
-    
-    
+
+
 
 
 
