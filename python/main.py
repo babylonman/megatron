@@ -10,6 +10,7 @@ import logging
 import logging.config
 import pandas as pd
 from Src import GPS_VK172 as vk
+from Src import path_plan as pp
 import datetime as dt
 
 
@@ -22,7 +23,9 @@ logger.info('Begin log ' + dt.datetime.now().strftime('%Y%m%d_%H%M%S%p'))
 
 df = vk.get_position()
 
-for i in range(10):
+rr = pp.load_waypoints()
+
+for i in range(2):
     df = vk.get_position()
     logger.warning('position aquired.')
 
