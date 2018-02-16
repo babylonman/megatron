@@ -8,6 +8,7 @@ Created on Sat Feb 10 14:12:48 2018
 import geojson as geo
 import logging
 import os
+import doctest
 
 
 def load_waypoints(waypoint_file=None):
@@ -55,11 +56,13 @@ def next_waypoint(feature_collection=None, current_id=1):
     Tests
     -----
     >>> import geojson
-    >>> geo.load('/home/pi/megatron/python/Test/path_plan/data/Baseball_feat_coll_dump.json')
-    >>> next_waypoint(waypoints, 1)
-    >>> 2
+    >>> waypoint_file = '/home/pi/megatron/python/test/path_plan/data/Baseball_feat_coll_dump.json'
+    >>> waypoints = geo.load(open(waypoint_file, 'r'))
+    >>> next_waypoint(waypoints, 1).geometry.id
+    2
     >>> next_waypoint(waypoints, -3)
-
+    -1
+    >>> del waypoint_file, waypoints
     '''
     if current_id < 0:
         return -1
@@ -81,3 +84,9 @@ print('should return 2')
 r = next_waypoint(waypoints, 1)
 print(r.geometry.id)
 print(r.geometry.coordinates)
+del waypoints
+
+#doctest
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
