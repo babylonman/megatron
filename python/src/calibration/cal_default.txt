@@ -1,0 +1,1 @@
+{"waypoint_tolerance": {"value": 3, "unit": "m"}, "max_speed": {"value": 100, "unit": "rpm"}}

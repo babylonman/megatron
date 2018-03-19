@@ -77,6 +77,30 @@ def next_waypoint(feature_collection=None, current_id=1):
     logging.warning('current_id out of range')
     return -1
 
+
+def pip():
+    '''Point in polygon algo
+    
+    Parameters
+    -------
+    point : point to test, can be geojson point
+    polygon : polygon to test against : can be geojson polygon
+
+    Returns
+    -------
+    True  == 1
+    False == 0
+    Invalid == -1
+
+    Example
+    -------
+
+    Tests
+    -----
+    '''
+
+
+
 waypoints = load_waypoints()
 
 # test of next_waypoint
