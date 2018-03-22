@@ -1,3 +1,9 @@
+"""
+Determine if point falls within polygon
+
+@author: pi
+"""
+
 import shapely.geometry
 
 def point_in_polygon(point, polygon):
