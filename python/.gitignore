@@ -3,3 +3,6 @@ Scratch/
 scratch.py
 Scratch.py
 __pycache__/
+DS_Store
+.DS_Store
+.spy*
