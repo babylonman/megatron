@@ -28,7 +28,8 @@ def load_waypoints(waypoint_file=None):
     '''
 
     if waypoint_file is None:
-        waypoint_file = '/home/pi/megatron/python/geojson/data/Baseball_feat_coll_dump.json'
+#        waypoint_file = '/home/pi/megatron/python/geojson/data/Baseball_feat_coll_dump.json'
+        waypoint_file = 'geojson/data/Baseball_feat_coll_dump.json'        
     with open(waypoint_file, 'r') as f:
         r = geo.load(f)
         logging.info('Using waypoint data from' + str(waypoint_file))

@@ -9,8 +9,8 @@ Created on Sat Jan 20 11:34:30 2018
 import logging
 import logging.config
 import pandas as pd
-from Src import GPS_VK172 as vk
-from Src import path_plan as pp
+from src import GPS_VK172 as vk
+from src import path_plan as pp
 import datetime as dt
 
 
