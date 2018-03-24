@@ -275,6 +275,5 @@ def main():
 
 if __name__ == '__main__':
     import doctest
-    import os
-    doctest.testfile(os.path.basename(__file__))
-#    main()
+    doctest.testmod()
+    main()
