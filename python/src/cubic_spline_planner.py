@@ -7,6 +7,7 @@ Author: Atsushi Sakai
 import math
 import numpy as np
 import bisect
+import logging
 
 
 class Spline:
@@ -177,8 +178,44 @@ class Spline2D:
         return yaw
 
 
-def calc_spline_course(x, y, ds=0.1):
-    sp = Spline2D(x, y)
+def calc_spline_course(x=None, y=None, sp=None, ds=0.1):
+    ''' calculate course of a Spline2D object, pass x & y or sp
+
+    Parameters
+    -------
+    x : x coordinates of spline to be calculated
+    y : y coordinates of spline to be calculated
+    sp : Spline2D previously calculated
+    ds : sampling interval for spline [m]
+
+    Returns
+    -------
+    rx : spline x coordinates [m]
+    ry : spline y coordinates [m]
+    ryaw : yaw angle [radians]
+    rk : curvature [1/m]
+    s :
+
+    Tests
+    -----
+    >>> import cubic_spline_planner as csp
+    >>> import math
+
+    Calculate spline for use in tests
+    >>> [rx, ry, ryaw, rk, s] = csp.calc_spline_course()
+
+    Absolute value of ryaw in radians must be less than pi
+    >>> max(map(abs,ryaw)) <= math.pi
+    True
+
+    '''
+    if sp is None:
+        if x is None and y is None:
+            x = [-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0]
+            y = [0.7, -6, 5, 6.5, 0.0, 5.0, -2.0]
+            logging.warning('Example data for 2D spline in use')
+        sp = Spline2D(x, y)
+
     s = list(np.arange(0, sp.s[-1], ds))
 
     rx, ry, ryaw, rk = [], [], [], []
@@ -197,7 +234,7 @@ def main():
     import matplotlib.pyplot as plt
     x = [-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0]
     y = [0.7, -6, 5, 6.5, 0.0, 5.0, -2.0]
-    ds = 0.1 # [m] distance of each intepolated points
+    ds = 0.1  # [m] distance of each intepolated points
 
     sp = Spline2D(x, y)
     s = np.arange(0, sp.s[-1], ds)
@@ -237,4 +274,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    import doctest
+    import os
+    doctest.testfile(os.path.basename(__file__))
+#    main()
