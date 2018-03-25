@@ -178,7 +178,8 @@ class Spline2D:
         return yaw
 
 
-def calc_spline_course(x=None, y=None, sp=None, ds=0.1):
+def calc_spline_course(x=None, y=None, sp=None, ds=0.1, view_plot=False,
+                       closed_course=True):
     ''' calculate course of a Spline2D object, pass x & y or sp
 
     Parameters
@@ -187,6 +188,8 @@ def calc_spline_course(x=None, y=None, sp=None, ds=0.1):
     y : y coordinates of spline to be calculated
     sp : Spline2D previously calculated
     ds : sampling interval for spline [m]
+    view_plot = plot course, yaw, and curvature
+    closed_course = False, course ends at last coordinate pair
 
     Returns
     -------
@@ -210,11 +213,14 @@ def calc_spline_course(x=None, y=None, sp=None, ds=0.1):
 
     '''
     if sp is None:
-        if x is None and y is None:
+        if x is None or y is None:
             x = [-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0]
             y = [0.7, -6, 5, 6.5, 0.0, 5.0, -2.0]
-            logging.warning('Example data for 2D spline in use')
-        sp = Spline2D(x, y)
+            logging.warning('No data passed, example 2D spline in use')
+        if closed_course is True:
+            x.append(x[0])
+            y.append(y[0])
+        sp = Spline2D(x, y)        
 
     s = list(np.arange(0, sp.s[-1], ds))
 
@@ -226,14 +232,57 @@ def calc_spline_course(x=None, y=None, sp=None, ds=0.1):
         ryaw.append(sp.calc_yaw(i_s))
         rk.append(sp.calc_curvature(i_s))
 
+    if view_plot is True:
+        spline_course = [rx, ry, ryaw, rk, s]
+        plot_spline_course(x, y, spline_course)
+
     return rx, ry, ryaw, rk, s
 
 
-def main():
+def plot_spline_course(x, y, spline_course):
+    '''Plots spline yaw, curivture, and spline path
+
+    Parameters
+    ----------
+    x, y waypoints
+    rx, ry, ryaw, rk, s spline information
+    '''
+
+    rx, ry, ryaw, rk, s = spline_course
+
+    import matplotlib.pyplot as plt
+    flg, ax = plt.subplots(1)
+    plt.plot(x, y, "xb", label="input")
+    plt.plot(rx, ry, "-r", label="spline")
+    plt.grid(True)
+    plt.axis("equal")
+    plt.xlabel("x[m]")
+    plt.ylabel("y[m]")
+    plt.legend()
+
+    flg, ax = plt.subplots(1)
+    plt.plot(s, [math.degrees(iyaw) for iyaw in ryaw], "-r", label="yaw")
+    plt.grid(True)
+    plt.legend()
+    plt.xlabel("line length[m]")
+    plt.ylabel("yaw angle[deg]")
+
+    flg, ax = plt.subplots(1)
+    plt.plot(s, rk, "-r", label="curvature")
+    plt.grid(True)
+    plt.legend()
+    plt.xlabel("line length[m]")
+    plt.ylabel("curvature [1/m]")
+
+    plt.show()
+
+
+def main(x=None, y=None):
     print("Spline 2D test")
     import matplotlib.pyplot as plt
-    x = [-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0]
-    y = [0.7, -6, 5, 6.5, 0.0, 5.0, -2.0]
+    if x is None or y is None:
+        x = [-2.5, 0.0, 2.5, 5.0, 7.5, 3.0, -1.0]
+        y = [0.7, -6, 5, 6.5, 0.0, 5.0, -2.0]
     ds = 0.1  # [m] distance of each intepolated points
 
     sp = Spline2D(x, y)
