@@ -8,7 +8,9 @@ Created on Sat Feb 10 14:12:48 2018
 import geojson as geo
 import logging
 import os
-import doctest
+import numpy as np
+
+from src import cubic_spline_planner as csp
 
 
 def load_waypoints(waypoint_file=None):
@@ -28,8 +30,8 @@ def load_waypoints(waypoint_file=None):
     '''
 
     if waypoint_file is None:
-#        waypoint_file = '/home/pi/megatron/python/geojson/data/Baseball_feat_coll_dump.json'
-        waypoint_file = 'geojson/data/Baseball_feat_coll_dump.json'        
+        waypoint_file = (os.path.dirname(os.getcwd()) +
+                         '/geojson/data/Baseball_feat_coll_dump.json')
     with open(waypoint_file, 'r') as f:
         r = geo.load(f)
         logging.info('Using waypoint data from' + str(waypoint_file))
@@ -57,7 +59,9 @@ def next_waypoint(feature_collection=None, current_id=1):
     Tests
     -----
     >>> import geojson
-    >>> waypoint_file = '/home/pi/megatron/python/test/path_plan/data/Baseball_feat_coll_dump.json'
+    >>> import os
+    >>> p = os.path.dirname(os.getcwd())
+    >>> waypoint_file = p + '/test/path_plan/data/Baseball_feat_coll_dump.json'
     >>> waypoints = geo.load(open(waypoint_file, 'r'))
     >>> next_waypoint(waypoints, 1).geometry.id
     2
@@ -79,19 +83,19 @@ def next_waypoint(feature_collection=None, current_id=1):
     return -1
 
 
-def pip():
-    '''Point in polygon algo
-    
+def plan_path(feature_collection, ds=None, closed_course=False):
+    '''plan path
+
     Parameters
     -------
-    point : point to test, can be geojson point
-    polygon : polygon to test against : can be geojson polygon
+    feature_collection : geojson feature collection object
+    ds = sample spacing for spline calculations [m]
+    closed_course = False, course ends at last coordinate pair
+
 
     Returns
     -------
-    True  == 1
-    False == 0
-    Invalid == -1
+    sp : spline2D object
 
     Example
     -------
@@ -99,19 +103,25 @@ def pip():
     Tests
     -----
     '''
+    
+    import misc
+    [x, y] = misc.get_coord(feature_collection)
 
+    if ds is None:
+        dx = np.mean(np.diff(x))
+        dy = np.mean(np.diff(y))
+        ds = np.mean([dx, dy])/10
+
+    sp = csp.calc_spline_course(x=x, y=y, ds=ds, view_plot=False,
+                                closed_course=closed_course)
+    return sp, x, y
 
 
 waypoints = load_waypoints()
+[sp, x, y] = plan_path(waypoints, closed_course=True)
+csp.plot_spline_course(x, y, sp,)
 
-# test of next_waypoint
-print('should return 2')
-r = next_waypoint(waypoints, 1)
-print(r.geometry.id)
-print(r.geometry.coordinates)
-del waypoints
-
-#doctest
+# doctest
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
