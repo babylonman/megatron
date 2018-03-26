@@ -11,18 +11,38 @@ example: cal['waypoint_tolerance'] = {'value': 2, 'unit': 'm'}
 """
 
 import json
+import logging
 
 
-def cal_set():
+def cal_set(parameter, value):
     ''' sets parameter value temporarly for the given test run
     '''
-    pass
+    try:
+        cal
+    except NameError:
+        logging.warning('Calibration not loaded, cal_get() attempted')
+    else:
+        try:
+            cal[parameter]['value'] = value
+            return logging.info('Calibration parameter : ' +
+                                str(parameter) + ' set to : ' + str(value) +
+                                ' ' + str(cal[parameter]['unit']))
+        except KeyError:
+            return logging.warning('Parameter not defined in current calibration')
 
 
-def cal_get():
+def cal_get(parameter):
     ''' returns the current value of the parameter passed to the get call
     '''
-    pass
+    try:
+        cal
+    except NameError:
+        logging.warning('Calibration not loaded, cal_get() attempted')
+    else:
+        try:
+            return cal[parameter]['value']
+        except KeyError:
+            return logging.warning('Parameter not defined in current calibration')
 
 
 def cal_save():
@@ -39,11 +59,25 @@ def cal_reset():
     pass
 
 
+def cal_list():
+    ''' lists the avaliable calibration parameters from the calibration file
+    given
+    '''
+    pass
+
+
+def cal_desc():
+    ''' prints a description of the given calibration parameter
+    '''
+    pass
+
+
 def cal_load(filename='calibration/cal_default.txt'):
     ''' loads the given calibration file
     '''
     with open(filename, 'r') as file:
         cal = json.loads(file.read())
+    logging.info('Calibration file loaded : ' + filename)
     return cal
 
 
@@ -51,6 +85,7 @@ def cal_example_setup():
     cal = {}
     cal['waypoint_tolerance'] = {'value': 2, 'unit': 'm'}
     cal['max_speed'] = {'value': 100, 'unit': 'rpm'}
-    with open('calibration/cal_default.txt', 'w') as file:
-        file.write(json.dumps(cal))
+    with open('calibration/cal_example.txt', 'w') as file:
+        file.write(json.dumps(cal), sort_keys=True,
+                   indent=4, separators=(',', ': '))
     return

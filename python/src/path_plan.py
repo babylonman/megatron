@@ -26,12 +26,11 @@ def load_waypoints(waypoint_file=None):
 
     Example
     -------
-    waypoints = load_waypoints(/home/pi/megatron/python/geojson/data/test.json
+    waypoints = load_waypoints('geojson/data/Baseball_feat_coll_dump.json')
     '''
-
+#os.path.dirname(os.getcwd()) +
     if waypoint_file is None:
-        waypoint_file = (os.path.dirname(os.getcwd()) +
-                         '/geojson/data/Baseball_feat_coll_dump.json')
+        waypoint_file = ('src/geojson/data/Baseball_feat_coll_dump.json')
     with open(waypoint_file, 'r') as f:
         r = geo.load(f)
         logging.info('Using waypoint data from' + str(waypoint_file))
@@ -61,7 +60,7 @@ def next_waypoint(feature_collection=None, current_id=1):
     >>> import geojson
     >>> import os
     >>> p = os.path.dirname(os.getcwd())
-    >>> waypoint_file = p + '/test/path_plan/data/Baseball_feat_coll_dump.json'
+    >>> waypoint_file = 'geojson/data/Baseball_feat_coll_dump.json'
     >>> waypoints = geo.load(open(waypoint_file, 'r'))
     >>> next_waypoint(waypoints, 1).geometry.id
     2
@@ -104,8 +103,8 @@ def plan_path(feature_collection, ds=None, closed_course=False):
     -----
     '''
     
-    import misc
-    [x, y] = misc.get_coord(feature_collection)
+    from src import location
+    [x, y] = location.get_coord(feature_collection)
 
     if ds is None:
         dx = np.mean(np.diff(x))

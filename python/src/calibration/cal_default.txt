@@ -1,1 +1,30 @@
-{"waypoint_tolerance": {"value": 3, "unit": "m"}, "max_speed": {"value": 100, "unit": "rpm"}}
+{
+  "waypoint_tolerance": {
+    "value": 3,
+    "unit": "m"
+  },
+  "max_speed": {
+    "value": 100,
+    "unit": "rpm"
+  },
+  "pp_k": {
+    "value": 0.1,
+    "unit": "s",
+    "desc": "pure_pursuit: look ahead velocity gain"
+  },
+  "pp_Lfc": {
+    "value": 2.6,
+    "unit": "m",
+    "desc": "pure_pursuit: look ahead distance"
+  },
+  "pp_Kp": {
+    "value": 1.0,
+    "unit": "-",
+    "desc": "pure_pursuit: speed control proportional gain"
+  },
+  "pp_L": {
+    "value": 2.6,
+    "unit": "m",
+    "desc": "pure_pursuit: vehicle wheel base"
+  }
+}
