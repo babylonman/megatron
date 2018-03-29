@@ -26,5 +26,10 @@
     "value": 2.6,
     "unit": "m",
     "desc": "pure_pursuit: vehicle wheel base"
+  },
+  "sensor_GPS": {
+    "value": "VK172",
+    "unit": "-",
+    "desc": "VK172 USB GPS receiver"
   }
 }

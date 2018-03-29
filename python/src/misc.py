@@ -18,7 +18,7 @@ def log_version():
     import subprocess
     import os
     try:
-        os.chdir('/Users/joncosgrove/Dropbox/Projects/GPS_robot/megatron')
+#        os.chdir('/Users/joncosgrove/Dropbox/Projects/GPS_robot/megatron')
         ver_tag = subprocess.check_output(["git", "describe"]).strip()
         ver_hash = subprocess.check_output(["git", "rev-parse", "--short",
                                             'HEAD']).strip()
