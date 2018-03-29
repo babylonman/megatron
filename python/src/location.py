@@ -7,7 +7,17 @@ Created on Sat Mar 24 21:24:30 2018
 """
 
 
+import logging
 import utm
+import setup
+
+
+def start_gps():
+    gps = setup.cal_get('sensor_GPS')
+    if gps is 'VK172':
+        import GPS_VK172 as vk
+        r = vk.get_position()
+        logging.info(str(r))
 
 
 def dd2utm(x=None, y=None, xy=None):
