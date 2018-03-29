@@ -12,7 +12,7 @@ import pandas as pd
 from src import GPS_VK172 as vk
 from src import path_plan as pp
 import datetime as dt
-
+from src import misc
 
 # setup logging
 filename = dt.datetime.now().strftime('%Y%m%d_%H%M%S%p') + '_main.log'
@@ -20,6 +20,7 @@ logging.config.fileConfig('Src/logging.conf',
                           defaults={'logfilename': 'Log/'+filename})
 logger = logging.getLogger('main')
 logger.info('Begin log ' + dt.datetime.now().strftime('%Y%m%d_%H%M%S%p'))
+misc.log_version()
 
 df = vk.get_position()
 
