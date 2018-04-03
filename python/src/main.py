@@ -18,18 +18,19 @@ import setup
 import location
 
 
-# global setup
-cal_file = 'cal_default.txt'
-
-
-# setup logging
-filename = dt.datetime.now().strftime('%Y%m%d_%H%M%S%p') + '_main.log'
-logging.config.fileConfig('logging.conf',
-                          defaults={'logfilename': '../Log/'+filename})
-logger = logging.getLogger('main')
+filename = '../log/' + dt.datetime.now().strftime('%Y%m%d_%H%M%S%p') + '_main.log'
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
+logging.basicConfig(filename=filename, level=logging.DEBUG,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 logger.info('Begin log ' + dt.datetime.now().strftime('%Y%m%d_%H%M%S%p'))
+
+# global setup
+cal_file = 'cal_test.txt'
 misc.log_version()
-cal = setup.cal_load(filename='calibration/'+str(cal_file))
+cal = setup.cal_load()
+
 
 location.start_gps()
 

@@ -36,11 +36,11 @@ def get_position(serial_port=None):
         try:
             default_port = '/dev/ttyACM0'
             serial_port = serial.Serial(default_port)
-            logging.debug('Using default serial port %s', default_port)
+            logger.debug('Using default serial port %s', default_port)
         except:
             print('No serial port avaliable')
-            logging.error('No serial port avaliable')
-            return
+            logger.error('No serial port avaliable')
+            return -1
 
     d = {}
     readComplete = False
@@ -53,7 +53,7 @@ def get_position(serial_port=None):
             # store into local variables
             [gps_lat, gps_latDir, gps_lon, gps_lonDir, gps_time,
              gps_valid, gps_cksum] = data.split(',', 6)
-            logging.debug('Message GPGLL received')
+            logger.debug('Message GPGLL received')
             for i in format_GPGLL():
                 # fill dict d with keys for data fields and cooresponding data
                 d[i] = locals()[i]
@@ -65,3 +65,6 @@ def format_GPGLL():
 
     return ['gps_lat', 'gps_latDir', 'gps_lon', 'gps_lonDir',
             'gps_time', 'gps_valid']
+
+
+logger = logging.getLogger(__name__)

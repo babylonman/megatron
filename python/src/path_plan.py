@@ -33,7 +33,7 @@ def load_waypoints(waypoint_file=None):
         waypoint_file = ('geojson/data/Baseball_feat_coll_dump.json')
     with open(waypoint_file, 'r') as f:
         r = geo.load(f)
-        logging.info('Using waypoint data from' + str(waypoint_file))
+        logger.info('Using waypoint data from' + str(waypoint_file))
         return r
 
 
@@ -78,7 +78,7 @@ def next_waypoint(feature_collection=None, current_id=1):
 # need to track min and max geo id outside of this function for efficiency
 # max to be referenced to determine when to loop back to first as well as
 # out of range checks
-    logging.warning('current_id out of range')
+    logger.warning('current_id out of range')
     return -1
 
 
@@ -116,11 +116,13 @@ def plan_path(feature_collection, ds=None, closed_course=False):
     return sp, x, y
 
 
-waypoints = load_waypoints()
-[sp, x, y] = plan_path(waypoints, closed_course=True)
-csp.plot_spline_course(x, y, sp,)
+logger = logging.getLogger(__name__)
 
 # doctest
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+
+    waypoints = load_waypoints()
+    [sp, x, y] = plan_path(waypoints, closed_course=True)
+    csp.plot_spline_course(x, y, sp,)

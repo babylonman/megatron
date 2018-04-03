@@ -20,29 +20,29 @@ def cal_set(parameter, value):
     try:
         cal
     except NameError:
-        logging.warning('Calibration not loaded, cal_get() attempted')
+        logger.warning('Calibration not loaded, cal_get() attempted')
     else:
         try:
             cal[parameter]['value'] = value
-            return logging.info('Calibration parameter : ' +
+            return logger.info('Calibration parameter : ' +
                                 str(parameter) + ' set to : ' + str(value) +
                                 ' ' + str(cal[parameter]['unit']))
         except KeyError:
-            return logging.warning('Parameter not defined in current calibration')
+            return logger.warning('Parameter not defined in current calibration')
 
 
 def cal_get(parameter):
     ''' returns the current value of the parameter passed to the get call
     '''
+    global cal
     try:
         cal
     except NameError:
-        logging.warning('Calibration not loaded, cal_get() attempted')
-    else:
-        try:
-            return cal[parameter]['value']
-        except KeyError:
-            return logging.warning('Parameter not defined in current calibration')
+        logger.warning('Calibration not loaded, cal_get() attempted')
+    try:
+        return cal[parameter]['value']
+    except KeyError:
+        return logger.warning('Parameter not defined in current calibration')
 
 
 def cal_save():
@@ -77,7 +77,8 @@ def cal_load(filename='calibration/cal_default.txt'):
     '''
     with open(filename, 'r') as file:
         cal = json.loads(file.read())
-    logging.info('Calibration file loaded : ' + filename)
+    print('cal loaded')        
+    logger.info('Calibration file loaded : ' + filename)
     return cal
 
 
@@ -89,3 +90,6 @@ def cal_example_setup():
         file.write(json.dumps(cal), sort_keys=True,
                    indent=4, separators=(',', ': '))
     return
+
+logger = logging.getLogger(__name__)
+cal = cal_load()

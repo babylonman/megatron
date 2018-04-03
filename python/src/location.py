@@ -16,8 +16,14 @@ def start_gps():
     gps = setup.cal_get('sensor_GPS')
     if gps is 'VK172':
         import GPS_VK172 as vk
-        r = vk.get_position()
-        logging.info(str(r))
+        try:
+            pos = vk.get_position()
+            if pos == -1:
+                return -1
+            else:
+                logging.info('Position aquired: ' + str(pos))
+        except:
+            logging.error('GPS error')
 
 
 def dd2utm(x=None, y=None, xy=None):

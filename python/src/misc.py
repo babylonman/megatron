@@ -22,12 +22,12 @@ def log_version():
         ver_tag = subprocess.check_output(["git", "describe"]).strip()
         ver_hash = subprocess.check_output(["git", "rev-parse", "--short",
                                             'HEAD']).strip()
-        logging.info('VERSION TAG: ' + str(ver_tag))
-        logging.info('VERSION HASH: ' + str(ver_hash))
+        logger.info('VERSION TAG: ' + str(ver_tag))
+        logger.info('VERSION HASH: ' + str(ver_hash))
         return
     except Exception as exception:
         if type(exception).__name__ is 'CalledProcessError':
-            logging.error('Git version info not avaliable')
+            logger.error('Git version info not avaliable')
         return
 
 
@@ -53,6 +53,8 @@ def configure_logging(path='/home/pi/megatron/python/Log', filemode='w',
     logging.basicConfig(filename=filename, level=level)
     logging.info('Begin')
 
+
+logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     import doctest
