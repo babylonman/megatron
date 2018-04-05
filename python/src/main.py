@@ -16,6 +16,10 @@ import path_plan as pp
 import misc
 import setup
 import location
+import sm
+
+machine = sm.Machine()
+
 
 
 filename = '../log/' + dt.datetime.now().strftime('%Y%m%d_%H%M%S%p') + '_main.log'
@@ -25,6 +29,9 @@ logging.basicConfig(filename=filename, level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 logger.info('Begin log ' + dt.datetime.now().strftime('%Y%m%d_%H%M%S%p'))
+
+machine.stop()
+
 
 # global setup
 cal_file = 'cal_test.txt'
