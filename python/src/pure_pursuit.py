@@ -8,16 +8,20 @@ author: Atsushi Sakai (@Atsushi_twi)
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-from src import setup
+import setup
 
 
-cal = setup.cal_load()
+if 'cal' in globals():
+    pass
+else:
+    setup.cal_load()
 
-k = cal.cal_get('pp_k') #0.1  # look forward gain [s], used with state.v to add to look ahead Lfc
-Lfc = 2.6  # look-ahead distance [m] distance ahead of the nearest course point
-Kp = 1.0  # speed propotional gain
-dt = 0.1  # [s]
-L = 2.9  # [m] wheel base of vehicle
+
+k = setup.cal_get('pp_k')       # 0.1  # look forward gain [s], used with state.v to add to look ahead Lfc
+Lfc = setup.cal_get('pp_Lfc')   # look-ahead distance [m] distance ahead of the nearest course point
+Kp = setup.cal_get('pp_Kp')     # 1.0  # speed propotional gain
+dt = setup.cal_get('pp_dt')     # 0.1  # [s]
+L = setup.cal_get('pp_L')       # 2.9  # [m] wheel base of vehicle
 
 show_animation = True
 

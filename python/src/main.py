@@ -17,6 +17,7 @@ import misc
 import setup
 import location
 import sm
+import pure_pursuit
 
 machine = sm.Machine()
 
@@ -45,6 +46,8 @@ location.start_gps()
 df = vk.get_position()
 
 rr = pp.load_waypoints()
+
+pure_pursuit.main()
 
 for i in range(2):
     df = vk.get_position()

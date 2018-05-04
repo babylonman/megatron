@@ -27,6 +27,11 @@
     "unit": "m",
     "desc": "pure_pursuit: vehicle wheel base"
   },
+  "pp_dt": {
+    "value": 0.1,
+    "unit": "s",
+    "desc": "pure_pursuit: delta time"
+  },
   "sensor_GPS": {
     "value": "VK172",
     "unit": "-",
